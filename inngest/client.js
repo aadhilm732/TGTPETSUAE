@@ -1,4 +1,6 @@
 import { Inngest } from "inngest";
 
-// Create a client to send and receive events
-export const inngest = new Inngest({ id: "TGTPETSUAE-ecommerce" });
+export const inngest = new Inngest({
+  id: "TGTPETSUAE-ecommerce",
+  eventKey: process.env.INNGEST_KEY, // ✅ This fixes the 401 error
+});
