@@ -1,4 +1,5 @@
-const { default: prisma } = require("@/lib/prisma")
+import prisma from "@/lib/prisma"
+
 
 
 const authSeller = async (userId)=>{

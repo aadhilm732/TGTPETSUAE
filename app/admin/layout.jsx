@@ -18,9 +18,9 @@ export default function RootAdminLayout({ children }) {
 
         <SignedOut>
             <div className="min-h-screen flex items-center justify-center">
-                <SignIn fallbackRedirectUrl="/Admin" routing="hash"/>
+                <SignIn fallbackRedirectUrl="/admin"/>
             </div>
-        </SignedOut>    
+        </SignedOut>
         </>
     );
 }

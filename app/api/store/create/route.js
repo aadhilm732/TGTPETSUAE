@@ -1,13 +1,12 @@
-import { getImageKitInstance } from "@/configs/imageKit";
+import imagekit from "@/configs/imageKit";
 import prisma from "@/lib/prisma";
 import { getAuth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
+// POST: Handles form submission to create a store
 export async function POST(request) {
   try {
-    // Lazy initialization of ImageKit inside the request handler
-    const imagekit = getImageKitInstance();
-
+    
     const { userId } = getAuth(request);
     const formData = await request.formData();
 
@@ -23,39 +22,31 @@ export async function POST(request) {
       return NextResponse.json({ error: "Missing store info" }, { status: 400 });
     }
 
-    // Check if user already registered a store
-    const store = await prisma.store.findFirst({
-      where: { userId: userId }
-    });
+    const store = await prisma.store.findFirst({ where: { userId } });
+    if (store) return NextResponse.json({ status: store.status });
 
-    if (store) {
-      return NextResponse.json({ status: store.status });
-    }
-
-    // Check if username is already taken
     const isUsernameTaken = await prisma.store.findFirst({
-      where: { username: username.toLowerCase() }
+      where: { username: username.toLowerCase() },
     });
 
     if (isUsernameTaken) {
       return NextResponse.json({ error: "Username already taken" }, { status: 400 });
     }
 
-    // Image upload to ImageKit
     const buffer = Buffer.from(await image.arrayBuffer());
     const response = await imagekit.upload({
       file: buffer,
       fileName: image.name,
-      folder: "logos"
+      folder: "logos",
     });
 
     const optimizedImage = imagekit.url({
       path: response.filePath,
       transformation: [
-        { quality: 'auto' },
-        { format: 'webp' },
-        { width: '512' }
-      ]
+        { quality: "auto" },
+        { format: "webp" },
+        { width: "512" },
+      ],
     });
 
     const newStore = await prisma.store.create({
@@ -67,14 +58,13 @@ export async function POST(request) {
         email,
         contact,
         address,
-        logo: optimizedImage
-      }
+        logo: optimizedImage,
+      },
     });
 
-    // Link store to user
     await prisma.user.update({
       where: { id: userId },
-      data: { store: { connect: { id: newStore.id } } }
+      data: { store: { connect: { id: newStore.id } } },
     });
 
     return NextResponse.json({ message: "Applied, waiting for approval" });
@@ -82,4 +72,24 @@ export async function POST(request) {
     console.error(error);
     return NextResponse.json({ error: error.code || error.message }, { status: 400 });
   }
+}
+
+// ✅ GET: Fetch seller status (to fix 405 error)
+export async function GET(request) {
+  const { userId } = getAuth(request);
+
+  if (!userId) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const store = await prisma.store.findFirst({
+    where: { userId },
+    select: { status: true },
+  });
+
+  if (!store) {
+    return NextResponse.json({ status: "none" });
+  }
+
+  return NextResponse.json({ status: store.status });
 }
