@@ -32,7 +32,7 @@ export async function POST(request){
 //Get all rating for a user
 export async function GET(request){
     try {
-        const {userId} = getAuth()
+        const {userId} = getAuth(request)
         if (!userId) {
             return NextResponse.json({error: "Unathorized"}, {status: 401})
         }
