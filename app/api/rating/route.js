@@ -37,6 +37,8 @@ export async function GET(request){
             return NextResponse.json({error: "Unathorized"}, {status: 401})
         }
         const ratings = await prisma.rating.findMany({where: {userId}})
+
+        return NextResponse.json({ratings})
     } catch (error) {
         console.error(error);
         return NextResponse.json({error: error.code || error.message}, {status: 400})
