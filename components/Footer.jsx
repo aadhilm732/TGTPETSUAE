@@ -14,10 +14,10 @@ const Footer = () => {
         {
             title: "PRODUCTS",
             links: [
-                { text: "Earphones", path: '/', icon: null },
-                { text: "Headphones", path: '/', icon: null },
-                { text: "Smartphones", path: '/', icon: null },
-                { text: "Laptops", path: '/', icon: null },
+                { text: "Cat Food", path: '/', icon: null },
+                { text: "Dog Food", path: '/', icon: null },
+                { text: "Bird Food", path: '/', icon: null },
+                { text: "Fish Food", path: '/', icon: null },
             ]
         },
         {
@@ -32,9 +32,9 @@ const Footer = () => {
         {
             title: "CONTACT",
             links: [
-                { text: "+1-212-456-7890", path: '/', icon: MailIcon },
-                { text: "contact@example.com", path: '/', icon: PhoneIcon },
-                { text: "794 Francisco, 94102", path: '/', icon: MapPinIcon }
+                { text: "+917 52 525 1689", path: '/', icon: MailIcon },
+                { text: "harisaathil6897@gmail.com", path: '/', icon: PhoneIcon },
+                { text: "Shabiya12, Abu Dhabi, UAE", path: '/', icon: MapPinIcon }
             ]
         }
     ];
@@ -51,10 +51,20 @@ const Footer = () => {
             <div className="max-w-7xl mx-auto">
                 <div className="flex flex-col md:flex-row items-start justify-between gap-10 py-10 border-b border-slate-500/30 text-slate-500">
                     <div>
-                        <Link href="/" className="text-4xl font-semibold text-slate-700">
-                            <span className="text-green-600">go</span>cart<span className="text-green-600 text-5xl leading-0">.</span>
+                        <Link href="/" className="text-4xl font-semibold text-slate-700 flex items-center gap-1">
+                            <span className="text-green-600">TGT</span>
+                            <span className="text-slate-700">PETS</span>
+
+                            {/* 🇦🇪 Animated gradient UAE text */}
+                            <span className="relative font-bold bg-[linear-gradient(90deg,#00732F,#000000,#FF0000,#00732F)] bg-[length:300%_300%] text-transparent bg-clip-text animate-flag">
+                                UAE
+                            </span>
+
+                            <span className="text-green-600 text-5xl leading-0">.</span>
                         </Link>
-                        <p className="max-w-[410px] mt-6 text-sm">Welcome to gocart, your ultimate destination for the latest and smartest gadgets. From smartphones and smartwatches to essential accessories, we bring you the best in innovation — all in one place.</p>
+
+
+                        <p className="max-w-[410px] mt-6 text-sm">At TGTPETSUAE, we’re passionate about making pet care easier, smarter, and more reliable. Our platform connects pet owners across the UAE with trusted services — from grooming and veterinary care to pet supplies and adoption support. Whether you’re looking to pamper your furry friend or find the best care solutions, TGTPETSUAE is your one-stop destination for everything pets.</p>
                         <div className="flex items-center gap-3 mt-5">
                             {socialIcons.map((item, i) => (
                                 <Link href={item.link} key={i} className="flex items-center justify-center w-10 h-10 bg-slate-100 hover:scale-105 hover:border border-slate-300 transition rounded-full">
@@ -80,9 +90,28 @@ const Footer = () => {
                     </div>
                 </div>
                 <p className="py-4 text-sm text-slate-500">
-                    Copyright 2025 © gocart All Right Reserved.
+                    Copyright 2025 © TGTPETS All Right Reserved.
                 </p>
             </div>
+            <style jsx>{`
+                    @keyframes flagWave {
+                        0% {
+                            background-position: 0% 50%;
+                        }
+                        50% {
+                            background-position: 100% 50%;
+                        }
+                        100% {
+                            background-position: 0% 50%;
+                        }
+                    }
+
+                    .animate-flag {
+                        animation: flagWave 4s ease-in-out infinite;
+                    }
+                    `}
+            </style>
+
         </footer>
     );
 };
